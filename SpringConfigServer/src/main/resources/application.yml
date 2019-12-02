@@ -1,0 +1,39 @@
+logging:
+  level:
+    com.aric.samples: TRACE
+
+
+server:
+  port: 8082
+spring:
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: select KEY, VALUE from PROPERTIES where APPLICATION=? and (PROFILE=? OR PROFILE is null) and LABEL=?
+          order: 1
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jndi-name: jdbc/config
+    username: postgres
+    password: rohit@123
+    url:      jdbc:postgresql://localhost:5432/postgres
+  profiles:
+    active:
+    - jdbc
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults : false
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  security:
+    user:
+      name: user
+      password: {noop}password
+
+  #spring.jpa.properties.hibernate.temp.use_jdbc_metadata_defaults = false
+
+  # Because detection is disabled you have to set correct dialect by hand.
+  #spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL9Dialect
